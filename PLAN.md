@@ -79,3 +79,18 @@ Allowed sources cap both coverage and confidence, so the compliance line is conf
 - Why it matters: auto-contact under the client's brand demands a far stricter precision bar and abstain threshold than a human-reviewed send.
 - Default assumption: a human reviews before any outreach.
 - What changes if answered: how conservative the threshold and the abstain gate are set.
+
+
+## Adaptation (added after reading CLARIFICATIONS.md)
+
+- Persona: my size-based instinct holds, but I'm implementing it as a single priority ladder... Now the ladder is AP/accounts payable → owner/founder (small) → CFO/finance lead (large) → office manager (fallback), taking the first role that exists for the business. Size-based behaviour falls out of this naturally. One real change: AP now beats the owner even at small shops when both exist.
+
+- Threshold: confirmed at 70. Added the required behaviour, when confidence < 70, return contact_email_or_phone = "" AND needs_human_review = true (blank the channel, not just flag it).
+
+- Success metric: confirmed precision over recall, a high needs_human_review rate on genuinely hard rows is expected. No change, this matched my stance.
+
+- Sources: all mocked (business registry, web/maps listing, email/phone enrichment), each independently fallible. Maps directly onto my pluggable provider interface. I'll build three mock providers behind a common lookup(entity) -> Claim[] contract.
+
+- Compliance: confirmed US B2B, business-contact-only, no personal/home data. Added explicit opt-out support and "no inference of identity from protected characteristics."
+
+- Q3 (auto-contact vs human send): This question went unanswered, I'll proceed with the human-in-the-loop assumption from my plan, consistent with the precision-over-recall metric.
